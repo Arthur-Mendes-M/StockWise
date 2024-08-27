@@ -1,6 +1,9 @@
+"use client"
+
 import Image from "next/image";
 
 import { Alegreya_Sans_SC } from "next/font/google";
+import { cn } from "@/lib/utils";
 
 const alegreya = Alegreya_Sans_SC({weight: "800", subsets: ["latin"]})
 
@@ -10,32 +13,34 @@ type LogoAttributes = {
         width: number,
         height: number,
     },
-    text_size_in_rem?: number
+    className?: string
 }
 
-export default function Logo({version, image_size, text_size_in_rem}: LogoAttributes) {
+export default function Logo({version, image_size, className}: LogoAttributes) {
     return (
         <>
             {
                 version === 'completed' ?
-                <div className={`${alegreya.className} flex items-center gap-2 text-stockGreen`}>
+                <div className={cn(alegreya.className, 'flex items-center gap-2 text-stockGreen', className)}>
                     <Image 
                         src='/ShortStockWiseLogo.svg' 
                         height={image_size?.height ?? 50} 
                         width={image_size?.width ?? 50} 
                         alt="S" 
                     />
-                    <h1 className={text_size_in_rem ? `text-[${text_size_in_rem}rem]` : 'text-base'}>StockWise</h1>
+                    <h1>StockWise</h1>
                 </div> 
                 
                 :
 
-                <Image 
-                    src='/ShortStockWiseLogo.svg' 
-                    height={image_size?.height ?? 50} 
-                    width={image_size?.width ?? 50} 
-                    alt="S" 
-                />
+                <div className={cn('', className)}>
+                    <Image 
+                        src='/ShortStockWiseLogo.svg' 
+                        height={image_size?.height ?? 50} 
+                        width={image_size?.width ?? 50} 
+                        alt="S" 
+                    />
+                </div>
             }
         </>
     )
