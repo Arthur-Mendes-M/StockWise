@@ -173,7 +173,7 @@ export default function Component() {
       <div className="w-full md:w-1/2 flex items-center justify-center p-8">
         <div className="w-full max-w-md space-y-8">
           <div className="flex flex-col gap-3 items-center text-center">
-            <Logo version="completed" image_size={{height: 45, width: 45}} className="text-3xl" />
+            <Logo version="completed" image={{height: 45, width: 45}} className="text-3xl" />
             <h2 className="mt-6 text-2xl font-bold text-green-800">Criar uma conta empresarial</h2>
           </div>
           <div className="mb-8">

@@ -9,14 +9,15 @@ const alegreya = Alegreya_Sans_SC({weight: "800", subsets: ["latin"]})
 
 type LogoAttributes = {
     version?: 'short' | 'completed',
-    image_size?: {
-        width: number,
-        height: number,
+    image?: {
+        width?: number,
+        height?: number,
+        className?: string
     },
     className?: string
 }
 
-export default function Logo({version, image_size, className}: LogoAttributes) {
+export default function Logo({version, image, className}: LogoAttributes) {
     return (
         <>
             {
@@ -24,8 +25,9 @@ export default function Logo({version, image_size, className}: LogoAttributes) {
                 <div className={cn(alegreya.className, 'flex items-center gap-2 text-stockGreen', className)}>
                     <Image 
                         src='/ShortStockWiseLogo.svg' 
-                        height={image_size?.height ?? 50} 
-                        width={image_size?.width ?? 50} 
+                        height={image?.height ?? 50} 
+                        width={image?.width ?? 50} 
+                        className={cn('', image?.className)}
                         alt="S" 
                     />
                     <h1>StockWise</h1>
@@ -36,8 +38,9 @@ export default function Logo({version, image_size, className}: LogoAttributes) {
                 <div className={cn('', className)}>
                     <Image 
                         src='/ShortStockWiseLogo.svg' 
-                        height={image_size?.height ?? 50} 
-                        width={image_size?.width ?? 50} 
+                        height={image?.height ?? 50} 
+                        width={image?.width ?? 50} 
+                        className={cn('', image?.className)}
                         alt="S" 
                     />
                 </div>
