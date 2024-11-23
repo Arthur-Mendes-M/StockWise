@@ -18,6 +18,10 @@ const whitelist = [
   "http://192.168.18.15:5173",
   "http://localhost:5173",
   "http://192.168.0.79:5173",
+
+  "https://stockwise-hbal9hn3c-mendes-projects-7cd2b556.vercel.app",
+  "stockwise-api-six.vercel.app",
+  "stockwise-hbal9hn3c-mendes-projects-7cd2b556.vercel.app"
 ];
 const corsOptions = {
   origin: function (origin: string | undefined, callback: Function) {
