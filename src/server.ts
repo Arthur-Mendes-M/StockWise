@@ -46,10 +46,10 @@ server.use("/report", ReportRouter);
 server.use("/transaction", TransactionRouter);
 server.use("/virtualStock", VirtualStockRouter);
 
-// server.listen(process.env.SERVER_PORT, () => {
-//   console.log(
-//     `Server is running on port: ${process.env.SERVER_PORT} \nAccess the server here: http://localhost:${process.env.SERVER_PORT}`
-//   );
-// });
+server.listen(process.env.SERVER_PORT ?? 1805, () => {
+  console.log(
+    `Server is running on port: ${process.env.SERVER_PORT} \nAccess the server here: http://localhost:${process.env.SERVER_PORT ?? 1805}`
+  );
+});
 
 export { server }
