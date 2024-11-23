@@ -13,29 +13,30 @@ import cors from "cors";
 
 const server = express();
 
-const whitelist = [
-  "http://192.168.0.11:5173",
-  "http://192.168.18.15:5173",
-  "http://localhost:5173",
-  "http://192.168.0.79:5173",
+// const whitelist = [
+//   "http://192.168.0.11:5173",
+//   "http://192.168.18.15:5173",
+//   "http://localhost:5173",
+//   "http://192.168.0.79:5173",
 
-  "https://stockwise-hbal9hn3c-mendes-projects-7cd2b556.vercel.app",
-  "stockwise-api-six.vercel.app",
-  "stockwise-hbal9hn3c-mendes-projects-7cd2b556.vercel.app"
-];
-const corsOptions = {
-  origin: function (origin: string | undefined, callback: Function) {
-    // Permitir origens na whitelist ou requisições sem origem (ex.: Postman, localhost direto)
-    if (!origin || whitelist.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.error(`Blocked by CORS: Origin ${origin} is not allowed.`);
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-};
+//   "https://stockwise-hbal9hn3c-mendes-projects-7cd2b556.vercel.app",
+//   "stockwise-api-six.vercel.app",
+//   "stockwise-hbal9hn3c-mendes-projects-7cd2b556.vercel.app"
+// ];
+// const corsOptions = {
+//   origin: function (origin: string | undefined, callback: Function) {
+//     // Permitir origens na whitelist ou requisições sem origem (ex.: Postman, localhost direto)
+//     if (!origin || whitelist.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       console.error(`Blocked by CORS: Origin ${origin} is not allowed.`);
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+// };
 
-server.use(cors(corsOptions));
+// server.use(cors(corsOptions));
+server.use(cors());
 server.use(json());
 server.use(routerGuardHandler);
 
@@ -50,10 +51,10 @@ server.use("/report", ReportRouter);
 server.use("/transaction", TransactionRouter);
 server.use("/virtualStock", VirtualStockRouter);
 
-server.listen(process.env.SERVER_PORT ?? 1805, () => {
-  console.log(
-    `Server is running on port: ${process.env.SERVER_PORT} \nAccess the server here: http://localhost:${process.env.SERVER_PORT ?? 1805}`
-  );
-});
+// server.listen(process.env.SERVER_PORT ?? 1805, () => {
+//   console.log(
+//     `Server is running on port: ${process.env.SERVER_PORT} \nAccess the server here: http://localhost:${process.env.SERVER_PORT ?? 1805}`
+//   );
+// });
 
 export { server }
