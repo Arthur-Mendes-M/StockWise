@@ -4,6 +4,7 @@ alt + D -> check
 TODOS: 
     ✔ Review all responses and check if them passing statusCode! @done(24-11-12 16:08)
 
+[ ] Hospedar na vercel
 
 [ ] Desenvolver a criação automática de relatórios
 	[ ] Criar um relatório de vendas e estoque conforme os dados do período selecionado
