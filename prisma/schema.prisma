@@ -50,24 +50,21 @@ model Company {
   products Product[]
   
 
-  employees Employee[]
+  clients Client[]
   transactions Transaction[]
   reports Report[]
   virtualStocks VirtualStock[]
 }
 
 
-model Employee {
+model Client {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String   @db.String
   email     String   @unique @db.String
-  password  String   @db.String
-  role      String   @db.String
-  
+
   company Company @relation(fields: [companyId], references: [id])
   companyId String   @db.ObjectId
-  
-  photoUrl  String?  @db.String
+
   createdAt DateTime @default(now())
 
   @@index([companyId])

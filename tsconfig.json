@@ -1,37 +1,18 @@
-// {
-//     "compilerOptions": {
-//       "target": "ES2022",
-//       "lib": ["ES2023"],
-//       "module": "commonjs", // Change to "node" if targeting Node.js environment directly
-//       "rootDir": "./src", // Change to "." if your server code is directly in the root directory
-//       "moduleResolution": "nodenext",
-//       "allowJs": true,
-//       "checkJs": true,
-//       "allowImportingTsExtensions": true,
-//       "strict": true,
-//       "skipLibCheck": true,
-//       "outDir": "./dist" // Output directory for compiled TypeScript files
-//     },
-//     "include": ["src"],
-//     "exclude": ["node_modules"]
-//   }
-
-
 {
-    "compilerOptions": {
-      "target": "ES2022",
-      "lib": ["ES2023"],
-      "module": "NodeNext",
-      "rootDir": "./src",
-      "moduleResolution": "nodenext",
-      "allowJs": true,
-      "checkJs": true,
-      // Remove the following line as it's not compatible with your current setup
-      // "allowImportingTsExtensions": true,
-      "strict": true,
-      "skipLibCheck": true,
-      "outDir": "./dist",
-    },
-    "include": ["src"],
-    "exclude": ["node_modules"],
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023"],
+    "module": "NodeNext",
+    "rootDir": "./src",
+    "moduleResolution": "nodenext",
+    "allowJs": true,
+    "checkJs": true,
+    // Remove the following line as it's not compatible with your current setup
+    // "allowImportingTsExtensions": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "outDir": "./dist",
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"],
   }

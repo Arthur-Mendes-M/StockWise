@@ -20,14 +20,25 @@ abstract class TransactionRepository {
       products: true
     }, })
 
-    products.forEach(async (order) => {
-      await TransactionRepository.prismaClient_product.update({data: {
-        quantityInStock: order.product.quantityInStock - order.quantity,
-        updatedAt: new Date()
-      }, where: {
-        id: order.product.id
-      }})
-    })
+    if(transaction?.type == "SALE") {
+      products.forEach(async (order) => {
+        await TransactionRepository.prismaClient_product.update({data: {
+          quantityInStock: order.product.quantityInStock - order.quantity,
+          updatedAt: new Date()
+        }, where: {
+          id: order.product.id
+        }})
+      })
+    } else if(transaction?.type == "PURCHASE") {
+      products.forEach(async (order) => {
+        await TransactionRepository.prismaClient_product.update({data: {
+          quantityInStock: order.product.quantityInStock + order.quantity,
+          updatedAt: new Date()
+        }, where: {
+          id: order.product.id
+        }})
+      })
+    }
 
     return savedTransaction
   }

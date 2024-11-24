@@ -2,7 +2,7 @@ import express from "express";
 import { json } from "express";
 import { Request, Response } from "express";
 import { CompanyRouter } from "./controllers/company.js";
-import { EmployeeRouter } from "./controllers/employee.js";
+import { ClientRouter } from "./controllers/client.js";
 import { ProductRouter } from "./controllers/product.js";
 import { ReportRouter } from "./controllers/report.js";
 import { TransactionRouter } from "./controllers/transaction.js";
@@ -13,30 +13,26 @@ import cors from "cors";
 
 const server = express();
 
-// const whitelist = [
-//   "http://192.168.0.11:5173",
-//   "http://192.168.18.15:5173",
-//   "http://localhost:5173",
-//   "http://192.168.0.79:5173",
+const whitelist = [
+  "http://192.168.0.11:5173",
+  "http://192.168.18.15:5173",
+  "http://localhost:5173",
+  "http://192.168.0.79:5173",
+];
+const corsOptions = {
+  origin: function (origin: string | undefined, callback: Function) {
+    // Permitir origens na whitelist ou requisições sem origem (ex.: Postman, localhost direto)
+    if (!origin || whitelist.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.error(`Blocked by CORS: Origin ${origin} is not allowed.`);
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+};
 
-//   "https://stockwise-hbal9hn3c-mendes-projects-7cd2b556.vercel.app",
-//   "stockwise-api-six.vercel.app",
-//   "stockwise-hbal9hn3c-mendes-projects-7cd2b556.vercel.app"
-// ];
-// const corsOptions = {
-//   origin: function (origin: string | undefined, callback: Function) {
-//     // Permitir origens na whitelist ou requisições sem origem (ex.: Postman, localhost direto)
-//     if (!origin || whitelist.includes(origin)) {
-//       callback(null, true);
-//     } else {
-//       console.error(`Blocked by CORS: Origin ${origin} is not allowed.`);
-//       callback(new Error("Not allowed by CORS"));
-//     }
-//   },
-// };
-
-// server.use(cors(corsOptions));
-server.use(cors());
+server.use(cors(corsOptions));
+// server.use(cors());
 server.use(json());
 server.use(routerGuardHandler);
 
@@ -45,7 +41,7 @@ server.get("/", (request: Request, response: Response) => {
 });
 
 server.use("/company", CompanyRouter);
-server.use("/employee", EmployeeRouter);
+server.use("/client", ClientRouter);
 server.use("/product", ProductRouter);
 server.use("/report", ReportRouter);
 server.use("/transaction", TransactionRouter);
