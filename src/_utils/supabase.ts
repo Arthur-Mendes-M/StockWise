@@ -60,4 +60,20 @@ const getPublicReportUrl = (fileName: string) => {
       .getPublicUrl(`report/${fileName}`)?.data?.publicUrl
 }
 
-export { uploadCompanyPhoto, getPublicCompanyPhotoUrl, updateCompanyPhoto, uploadProductImages, getPublicProductPhotoUrl, updateProductPhoto, uploadReportFiles, getPublicReportUrl }
+
+const uploadTransactionFile = async (fileName: string, file: any) => {
+    const {data, error} = await supabase.storage.from('stock_images').upload(`transaction/${fileName}`, file.buffer, {
+        contentType: file.mimetype ?? file.type
+    })
+
+    return data ?? error
+}
+
+const getPublicTransactionUrl = (fileName: string) => {
+    return supabase
+      .storage
+      .from('stock_images')
+      .getPublicUrl(`transaction/${fileName}`)?.data?.publicUrl
+}
+
+export { uploadCompanyPhoto, getPublicCompanyPhotoUrl, uploadTransactionFile, getPublicTransactionUrl, updateCompanyPhoto, uploadProductImages, getPublicProductPhotoUrl, updateProductPhoto, uploadReportFiles, getPublicReportUrl }

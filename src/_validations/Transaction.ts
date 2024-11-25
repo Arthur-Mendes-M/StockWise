@@ -67,8 +67,10 @@ const TransactionObjectReceivedValidator = z.object({
     orders: z.string(),
     createdAt: z.date(),
     companyId: z.string(),
-    products: z.array(z.any()),
-    productsIds: z.array(z.string())
+    products: z.string(),
+    productsIds: z.array(z.string()),
+
+    file: z.any().optional()
 })
 
 type TransactionObjectType = z.infer<typeof TransactionObjectValidator>

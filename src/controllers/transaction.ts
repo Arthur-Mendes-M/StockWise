@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Router } from 'express'
 import { TransactionService } from "../services/transaction.js";
+import { formFileMapper } from "../_utils/multer.js";
 
 const TransactionRouter = Router()
 
@@ -14,8 +15,10 @@ function putTransaction(request: Request, response: Response) {
 
 async function postTransaction(request: Request, response: Response) {
   const transaction = request.body
+  const transactionFile = request.file
   const companyId = response.locals.companyId
-  response.json(await TransactionService.create({...transaction, companyId}));
+
+  response.json(await TransactionService.create({...transaction, companyId, file: transactionFile}));
 }
 
 function deleteTransaction(request: Request, response: Response) {
@@ -24,7 +27,7 @@ function deleteTransaction(request: Request, response: Response) {
 
 TransactionRouter.get("/", getTransaction)
 TransactionRouter.put("/", putTransaction)
-TransactionRouter.post("/", postTransaction)
+TransactionRouter.post("/", formFileMapper.single("file"), postTransaction)
 TransactionRouter.delete("/", deleteTransaction)
 
 export { TransactionRouter };

@@ -1,8 +1,13 @@
 import { Transaction } from "@prisma/client"
 import { TransactionRepository } from "../repositories/transaction.js"
 import { TransactionObjectValidator, TransactionObjectType, TransactionObjectReceivedType } from "../_validations/Transaction.js"
+import { getPublicTransactionUrl, uploadTransactionFile } from "../_utils/supabase.js"
 
 type TransactionReceivedDTO = Omit<Transaction, 'id'>
+
+type OrderType = {
+  id: string
+}
 
 abstract class TransactionService {
   static repository = TransactionRepository
@@ -10,17 +15,27 @@ abstract class TransactionService {
   constructor() { }
 
   static async create(transaction: TransactionObjectReceivedType) {
+    const transactionProducts = JSON.parse(transaction.products)
+
     const formattedTransaction: TransactionObjectReceivedType = {
       ...transaction,
       createdAt: new Date(),
       fileUrl: null,
-      productsIds: transaction.products.map(order => {return order.product.id}),
-      orders: JSON.stringify(transaction.orders)
+      productsIds: transactionProducts.map((order: OrderType) => {return order.id}),
+      orders: transaction.orders,
+      total: Number(transaction.total)
     }
+    
+    const {products, file, ...cleanFormattedTransaction} = formattedTransaction
+    const formattedProducts: string[] = JSON.parse(transaction.orders)
 
-    const {products, ...cleanFormattedTransaction} = formattedTransaction
+    const savedTransaction = await this.repository.create(cleanFormattedTransaction, formattedProducts)
+    const fileName = `${savedTransaction?.id}.pdf`
 
-    return await this.repository.create(cleanFormattedTransaction, products) 
+    await uploadTransactionFile(fileName, file)
+    const savedTransactionFileUrl = getPublicTransactionUrl(fileName)
+
+    return await this.repository.update(savedTransaction?.id, {fileUrl: savedTransactionFileUrl})
   }
 
   static getAll(companyId: string) {
