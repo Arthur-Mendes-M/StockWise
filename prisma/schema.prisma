@@ -122,5 +122,7 @@ model VirtualStock {
   company Company @relation(fields: [companyId], references: [id])
   companyId String   @db.ObjectId
 
+  trackUrl String?  @db.String
+
   @@index([companyId])
 }

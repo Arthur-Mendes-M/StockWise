@@ -76,4 +76,21 @@ const getPublicTransactionUrl = (fileName: string) => {
       .getPublicUrl(`transaction/${fileName}`)?.data?.publicUrl
 }
 
-export { uploadCompanyPhoto, getPublicCompanyPhotoUrl, uploadTransactionFile, getPublicTransactionUrl, updateCompanyPhoto, uploadProductImages, getPublicProductPhotoUrl, updateProductPhoto, uploadReportFiles, getPublicReportUrl }
+
+const uploadVirtualStockTrackFile = async (fileName: string, file: any) => {
+    const {data, error} = await supabase.storage.from('stock_images').upload(`virtualStock/${fileName}`, file.buffer, {
+        contentType: file.mimetype ?? file.type
+    })
+
+    return data ?? error
+}
+
+const getPublicVirtualStockTrackUrl = (fileName: string) => {
+    return supabase
+      .storage
+      .from('stock_images')
+      .getPublicUrl(`virtualStock/${fileName}`)?.data?.publicUrl
+}
+
+
+export { uploadCompanyPhoto, getPublicCompanyPhotoUrl, uploadTransactionFile, getPublicTransactionUrl, updateCompanyPhoto, uploadProductImages, getPublicProductPhotoUrl, updateProductPhoto, uploadReportFiles, getPublicReportUrl, uploadVirtualStockTrackFile, getPublicVirtualStockTrackUrl }

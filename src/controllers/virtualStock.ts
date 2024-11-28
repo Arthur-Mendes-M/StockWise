@@ -7,9 +7,17 @@ import { Console } from "console";
 const VirtualStockRouter = Router();
 
 async function getVirtualStock(request: Request, response: Response) {
+  const code = request?.query?.code
   const companyId = response.locals.companyId
 
-  response.json(await VirtualStockService.getAll(companyId));
+  if(code) {
+    const formattedCode = "#".concat(String(code))
+    response.json(await VirtualStockService.getAll(companyId, formattedCode));
+  } else {
+    response.json(await VirtualStockService.getAll(companyId));
+  }
+
+  // response.json(await VirtualStockService.getAll(companyId));
 }
 
 async function putVirtualStock(request: Request, response: Response) {

@@ -2,6 +2,8 @@ import { VirtualStock } from "@prisma/client"
 import { VirtualStockRepository } from "../repositories/virtualStock.js"
 import { VirtualStockObjectValidator, VirtualStockObjectType, VirtualStockObjectReceivedType } from "../_validations/VirtualStock.js"
 import { codeGenerator } from "../_utils/stringGenerator.js"
+import { qrCodeFileGenerator } from "../_utils/qrcode.js"
+import { getPublicVirtualStockTrackUrl, uploadVirtualStockTrackFile } from "../_utils/supabase.js"
 
 type VirtualStockReceivedDTO = Omit<VirtualStock, 'id'>
 
@@ -12,19 +14,34 @@ abstract class VirtualStockService {
 
   static async create(virtualStock: VirtualStockObjectReceivedType) {
     const formattedVirtualStock: VirtualStockObjectReceivedType = {
-        ...virtualStock,
-        createdAt: new Date(),
-        code: codeGenerator(8, null),
-        productsIds: virtualStock.products.map(products => products.id)
+      ...virtualStock,
+      createdAt: new Date(),
+      code: codeGenerator(8, null),
+      productsIds: virtualStock.products.map(products => products.id)
     }
+
+    const qrCodeFile = await qrCodeFileGenerator(formattedVirtualStock.code);
+
+    const qrcodePhotoName = `qrcode_${formattedVirtualStock.code.replace("#", "")}.png`
+    await uploadVirtualStockTrackFile(qrcodePhotoName, qrCodeFile)
+
+    const qrcodePublicUrl = getPublicVirtualStockTrackUrl(qrcodePhotoName)
+    formattedVirtualStock.trackUrl = qrcodePublicUrl
+    
 
     const {products, ...cleanFormattedVirtualStock} = formattedVirtualStock
 
     return await this.repository.create(cleanFormattedVirtualStock, products) 
   }
 
-  static async getAll(companyId: string) {
-    const result = this.repository.getAll(companyId).then(data => data).catch(error => error)
+  static async getAll(companyId: string, code?: any) {
+    let result
+
+    if(code) {
+      result = this.repository.getByCode(code, companyId).then(data => data).catch(error => error)
+    } else {
+      result = this.repository.getAll(companyId).then(data => data).catch(error => error)
+    }
     
     if("error" in result) {
       return {

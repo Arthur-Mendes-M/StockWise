@@ -35,6 +35,13 @@ abstract class VirtualStockRepository {
     }})
   }
 
+  static getByCode(code: string, companyId: string) {
+    return VirtualStockRepository.prismaClient.virtualStock.findMany({where: {
+      companyId,
+      code
+    }})
+  }
+
   static async update(id: string, newData: VirtualStockUpdateDTO, productsIds: {id: string}[]) {
     return await VirtualStockRepository.prismaClient.virtualStock.update({where: {
       id

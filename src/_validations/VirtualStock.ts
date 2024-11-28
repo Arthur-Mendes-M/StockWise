@@ -49,7 +49,8 @@ const VirtualStockObjectReceivedValidator = z.object({
     createdAt: z.date(),
     companyId: z.string(),
     products: z.array(z.any()),
-    productsIds: z.array(z.string())
+    productsIds: z.array(z.string()),
+    trackUrl: z.string().nullable()
 })
 
 type VirtualStockObjectType = z.infer<typeof VirtualStockObjectValidator>
