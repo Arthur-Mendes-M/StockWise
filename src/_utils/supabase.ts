@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js'
 const supabase = createClient(process.env.POSTGRE_BASE_URL ?? "", process.env.POSTGRE_DATABASE_KEY ?? "")
 
 const uploadCompanyPhoto = async (fileName: string, file: any) => {
-    const {data, error} = await supabase.storage.from('stock_images').upload(`company/${fileName}`, file.buffer, {
+    const {data, error} = await supabase.storage.from('stock-images').upload(`company/${fileName}`, file.buffer, {
         contentType: file.mimetype
     })
 
@@ -13,19 +13,19 @@ const uploadCompanyPhoto = async (fileName: string, file: any) => {
 const getPublicCompanyPhotoUrl = (fileName: string) => {
     return supabase
       .storage
-      .from('stock_images')
+      .from('stock-images')
       .getPublicUrl(`company/${fileName}`)?.data?.publicUrl
 }
 
 const updateCompanyPhoto = async (currentFileName: string, newFile: any) => {
-    const {data, error} = await supabase.storage.from("stock_images").update(currentFileName, newFile.buffer, {upsert: true})
+    const {data, error} = await supabase.storage.from("stock-images").update(currentFileName, newFile.buffer, {upsert: true})
 
     return data ?? error
 }
 
 
 const uploadProductImages = async (fileName: string, file: any) => {
-    const {data, error} = await supabase.storage.from('stock_images').upload(`product/${fileName}`, file.buffer, {
+    const {data, error} = await supabase.storage.from('stock-images').upload(`product/${fileName}`, file.buffer, {
         contentType: file.mimetype ?? file.type
     })
 
@@ -35,18 +35,18 @@ const uploadProductImages = async (fileName: string, file: any) => {
 const getPublicProductPhotoUrl = (fileName: string) => {
     return supabase
       .storage
-      .from('stock_images')
+      .from('stock-images')
       .getPublicUrl(`product/${fileName}`)?.data?.publicUrl
 }
 
 const updateProductPhoto = async (currentFileName: string, newFile: any) => {
-    const {data, error} = await supabase.storage.from("stock_images").update(currentFileName, newFile.buffer, {upsert: true})
+    const {data, error} = await supabase.storage.from("stock-images").update(currentFileName, newFile.buffer, {upsert: true})
 
     return data ?? error
 }
 
 const uploadReportFiles = async (fileName: string, file: any) => {
-    const {data, error} = await supabase.storage.from('stock_images').upload(`report/${fileName}`, file.buffer, {
+    const {data, error} = await supabase.storage.from('stock-images').upload(`report/${fileName}`, file.buffer, {
         contentType: file.mimetype ?? file.type
     })
 
@@ -56,13 +56,13 @@ const uploadReportFiles = async (fileName: string, file: any) => {
 const getPublicReportUrl = (fileName: string) => {
     return supabase
       .storage
-      .from('stock_images')
+      .from('stock-images')
       .getPublicUrl(`report/${fileName}`)?.data?.publicUrl
 }
 
 
 const uploadTransactionFile = async (fileName: string, file: any) => {
-    const {data, error} = await supabase.storage.from('stock_images').upload(`transaction/${fileName}`, file.buffer, {
+    const {data, error} = await supabase.storage.from('stock-images').upload(`transaction/${fileName}`, file.buffer, {
         contentType: file.mimetype ?? file.type
     })
 
@@ -72,13 +72,13 @@ const uploadTransactionFile = async (fileName: string, file: any) => {
 const getPublicTransactionUrl = (fileName: string) => {
     return supabase
       .storage
-      .from('stock_images')
+      .from('stock-images')
       .getPublicUrl(`transaction/${fileName}`)?.data?.publicUrl
 }
 
 
 const uploadVirtualStockTrackFile = async (fileName: string, file: any) => {
-    const {data, error} = await supabase.storage.from('stock_images').upload(`virtualStock/${fileName}`, file.buffer, {
+    const {data, error} = await supabase.storage.from('stock-images').upload(`virtualStock/${fileName}`, file.buffer, {
         contentType: file.mimetype ?? file.type
     })
 
@@ -88,7 +88,7 @@ const uploadVirtualStockTrackFile = async (fileName: string, file: any) => {
 const getPublicVirtualStockTrackUrl = (fileName: string) => {
     return supabase
       .storage
-      .from('stock_images')
+      .from('stock-images')
       .getPublicUrl(`virtualStock/${fileName}`)?.data?.publicUrl
 }
 
